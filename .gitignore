@@ -1,0 +1,14 @@
+# Environments
+.env
+env/
+# https://github.com/qoomon/git-conventional-commits
+git-conventional-commits.yaml
+# Visual Studio Code 
+.vscode/*
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
