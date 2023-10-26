@@ -11,3 +11,4 @@
 - [ ] Decide, which authentication mechanism we want to use (Basic authentication, JWT, Cookie Authentication, ...)
 - [ ] Develop user model (fields, different types of user and etc.)
 - [ ] Decide if we want to stick with the default Django admin panel or develop our own
+- [ ] Add tests
