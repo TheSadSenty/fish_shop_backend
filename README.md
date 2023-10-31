@@ -28,7 +28,7 @@ print(get_random_secret_key())
 ```
 Paste `SECRET_KEY=<random abracadabra>` and `DEBUG=True` to `.env` file
 ## TODO
-- [ ] Create `ProductsList` and `CategoryList` views so the server can return all products and categories as valid JSON
+- [x] Create `ProductsList` and `CategoryList` views so the server can return all products and categories as valid JSON
 - [ ] Decide, which authentication mechanism we want to use (Basic authentication, JWT, Cookie Authentication, ...)
 - [ ] Develop user model (fields, different types of user and etc.)
 - [ ] Decide if we want to stick with the default Django admin panel or develop our own
