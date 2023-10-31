@@ -31,3 +31,25 @@ class CategoryDetail(APIView):
         product = self.get_object(id)
         serializer = CategorySerializer(product)
         return JsonResponse(serializer.data)
+
+# Returning valid JSON instead of an array [{...}, {...}, {...}]
+
+
+class CategoryList(APIView):
+    def get(self, request, format=None):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        category_list = dict()
+        category_list["categories"] = serializer.data
+        return JsonResponse(category_list)
+
+# Returning valid JSON instead of an array [{...}, {...}, {...}]
+
+
+class ProductsList(APIView):
+    def get(self, request, format=None):
+        products = Products.objects.all()
+        serializer = ProductsSerializer(products, many=True)
+        product_list = dict()
+        product_list["products"] = serializer.data
+        return JsonResponse(product_list)
