@@ -34,3 +34,42 @@ Paste `SECRET_KEY=<random abracadabra>` and `DEBUG=True` to `.env` file
 - [ ] Decide if we want to stick with the default Django admin panel or develop our own
 - [ ] Add tests
 - [ ] Add [factory_boy](https://github.com/FactoryBoy/factory_boy) for fake data generation
+- [ ] Decide if we want to return JSON instead of HTTP statuses for error handling. Something similar to this:
+
+```
+{
+   "ok":false,
+   "error_code":404,
+   "description":"Not Found"
+}
+```
+```
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 615081885,
+      "message": {
+        "message_id": 486,
+        "from": {
+          "id": 418155406,
+          "is_bot": false,
+          "first_name": "Maxim",
+          "last_name": "Kasyanov",
+          "username": "thesadsenty",
+          "language_code": "ru"
+        },
+        "chat": {
+          "id": 418155406,
+          "first_name": "Maxim",
+          "last_name": "Kasyanov",
+          "username": "thesadsenty",
+          "type": "private"
+        },
+        "date": 1698719198,
+        "text": "hdfdf"
+      }
+    }
+  ]
+}
+```
