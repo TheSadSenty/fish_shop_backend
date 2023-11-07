@@ -33,6 +33,7 @@ Paste `SECRET_KEY=<random abracadabra>` and `DEBUG=True` to `.env` file
 - [ ] Develop user model (fields, different types of user and etc.)
 - [ ] Decide if we want to stick with the default Django admin panel or develop our own
 - [ ] Add tests
+- [ ] Add [protobuf](https://github.com/protocolbuffers/protobuf) support to export API schema
 - [ ] Add [factory_boy](https://github.com/FactoryBoy/factory_boy) for fake data generation
 - [ ] Decide if we want to return JSON instead of HTTP statuses for error handling. Something similar to this:
 
