@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'fish_shop_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',  # Если PostgreSQL находится на том же сервере, что и Django
+        'PORT': '5432',           # По умолчанию, PostgreSQL использует порт 5432
     }
 }
 
