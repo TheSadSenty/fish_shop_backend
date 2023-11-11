@@ -7,6 +7,18 @@
 5.  `pip install -r requirements.txt`
 6.  `python3 manage.py migrate` - applying migrations
 8.  `python3 manage.py runserver`
+## Launch the app in Docker
+1. `touch .env`. Add the following lines:
+```shel
+DEBUG=True
+SECRET_KEY=django-insecure-@e%9m0aw_!hnhip05to+a0eu+^f*kp=(yc9ghzoh5!a79ha@zr
+POSTGRES_DB=postgres 
+POSTGRES_USER=postgres 
+POSTGRES_PASSWORD=1234
+POSTGRES_ADDRESS=postgres
+```
+2. `docker-compose up -d --build`
+3. `docker container exec -it backend /usr/bin/python3 /app/manage.py migrate`
 ## Creating test data
 `python3 manage.py shell` - Launch interactive shell
 ```python
