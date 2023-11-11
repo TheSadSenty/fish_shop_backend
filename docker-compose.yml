@@ -24,8 +24,6 @@ services:
     container_name: db
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
     volumes:
       - ./data:/var/lib/postgresql/data
