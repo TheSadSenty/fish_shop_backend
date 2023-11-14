@@ -13,7 +13,17 @@ class Products(models.Model):
     description = models.TextField('Описание', blank=True)
     photo = models.ImageField('Изображение', upload_to="products_photos/")
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+
+    category = models.ForeignKey(
+        'Category', on_delete=models.SET_NULL, null=True)
+
+    amount = models.PositiveIntegerField(
+        'Количество товара в наличии', blank=False, default=1)
+    purchase_quantity = models.PositiveIntegerField(
+        'Продано единиц товара', blank=False, default=0)
+
+    addition_datetime = models.DateTimeField(
+        'Дата и время добавления товара', editable=False, blank=False, auto_now_add=True)
 
     def __str__(self):
         return self.name
