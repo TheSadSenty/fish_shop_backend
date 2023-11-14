@@ -12,3 +12,5 @@ git-conventional-commits.yaml
 __pycache__
 db.sqlite3
 media
+#db files
+data/
