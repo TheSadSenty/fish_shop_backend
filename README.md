@@ -55,10 +55,21 @@ Paste `SECRET_KEY=<random abracadabra>` and `DEBUG=True` to `.env` file
 - [ ] Develop user model (fields, different types of user and etc.)
 - [x] Decide if we want to stick with the default Django admin panel or develop our own
 - [ ] Add tests
+- [ ] Optional. Add fuzzing
 - [ ] Add [protobuf](https://github.com/protocolbuffers/protobuf) support to export API schema
-- [ ] Add [factory_boy](https://github.com/FactoryBoy/factory_boy) for fake data generation
+- [ ] Optional. Add [factory_boy](https://github.com/FactoryBoy/factory_boy) for fake data generation
+- [ ] ***Add cart functionality***
+- [ ] Add reviews functionality. Username, datetime, stars, review text
+- [ ] ***Add `signin/signup`. Login or email. JWT with cookies***
+- [ ] Optional. Add email verification
+- [ ] ***Add request pagination***
+- [ ] ***Add products filter: by price, popularity, discounts, alphabet***
+- [ ] ***Add personal cabinet functionality: orders, order status, order checkout, change password, ...***
+- [ ] ***Add the datetime of additions, purchase quantity, and discount field to the product model***
+- [ ] Add users favorites products
+- [ ] Optional. Add application for cooperation functionality. Name, email
+- [ ] Optional. Setup PostgreSQL logging into file
 - [x] Decide if we want to return JSON instead of HTTP statuses for error handling. Something similar to this:
-
 ```
 {
    "ok":false,
