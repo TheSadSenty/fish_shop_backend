@@ -51,13 +51,13 @@ print(get_random_secret_key())
 Paste `SECRET_KEY=<random abracadabra>` and `DEBUG=True` to `.env` file
 ## TODO
 - [x] Create `ProductsList` and `CategoryList` views so the server can return all products and categories as valid JSON
-- [ ] Decide, which authentication mechanism we want to use (Basic authentication, JWT, Cookie Authentication, ...)
+- [x] Decide, which authentication mechanism we want to use (Basic authentication, JWT, Cookie Authentication, ...)
 - [ ] Develop user model (fields, different types of user and etc.)
 - [x] Decide if we want to stick with the default Django admin panel or develop our own
 - [ ] Add tests
 - [ ] Add [protobuf](https://github.com/protocolbuffers/protobuf) support to export API schema
 - [ ] Add [factory_boy](https://github.com/FactoryBoy/factory_boy) for fake data generation
-- [ ] Decide if we want to return JSON instead of HTTP statuses for error handling. Something similar to this:
+- [x] Decide if we want to return JSON instead of HTTP statuses for error handling. Something similar to this:
 
 ```
 {
