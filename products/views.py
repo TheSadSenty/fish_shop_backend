@@ -1,55 +1,36 @@
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 from products.models import Category, Products
-from django.http import Http404
 from products.serializers import ProductsSerializer, CategorySerializer
 
 
-class ProductsDetail(APIView):
-    def get_object(self, id):
-        try:
-            return Products.objects.get(id=id)
-        except Products.DoesNotExist:
-            raise Http404
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+    renderer_classes = [JSONRenderer]
 
-    def get(self, request, id, format=None):
-        product = self.get_object(id)
+    def list(self, request):
+        queryset = Products.objects.all()
+        serializer = ProductsSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = Products.objects.all()
+        product = get_object_or_404(queryset, pk=pk)
         serializer = ProductsSerializer(product)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
 
 
-class CategoryDetail(APIView):
-    def get_object(self, id):
-        try:
-            return Category.objects.get(id=id)
-        except Category.DoesNotExist:
-            raise Http404
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    renderer_classes = [JSONRenderer]
 
-    def get(self, request, id, format=None):
-        product = self.get_object(id)
-        serializer = CategorySerializer(product)
-        return JsonResponse(serializer.data)
+    def list(self, request):
+        queryset = Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
 
-# Returning valid JSON instead of an array [{...}, {...}, {...}]
-
-
-class CategoryList(APIView):
-    def get(self, request, format=None):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        category_list = dict()
-        category_list["categories"] = serializer.data
-        return JsonResponse(category_list)
-
-# Returning valid JSON instead of an array [{...}, {...}, {...}]
-
-
-class ProductsList(APIView):
-    def get(self, request, format=None):
-        products = Products.objects.all()
-        serializer = ProductsSerializer(products, many=True)
-        product_list = dict()
-        product_list["products"] = serializer.data
-        return JsonResponse(product_list)
+    def retrieve(self, request, pk=None):
+        queryset = Category.objects.all()
+        category = get_object_or_404(queryset, pk=pk)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
