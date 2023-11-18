@@ -47,5 +47,5 @@ class Discount(models.Model):
     description = models.CharField(verbose_name="Описание скидки", blank=True)
     from_datetime = models.DateTimeField(
         verbose_name='Дата и время начала действия скидки', editable=True, blank=False, auto_now_add=True)
-    to_datetime = models.DurationField(
+    duration = models.DurationField(
         verbose_name='Дата и время окончания действия скидки', editable=True, blank=False, default=timedelta(days=7))
