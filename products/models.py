@@ -6,10 +6,14 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     discount = models.ForeignKey(
-        'Discount', verbose_name='Скидка, %', on_delete=models.SET_NULL, null=True)
+        'Discount', verbose_name='Скидка', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Products(models.Model):
@@ -19,7 +23,7 @@ class Products(models.Model):
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
 
     category = models.ForeignKey(
-        'Category', on_delete=models.SET_NULL, null=True)
+        'Category', verbose_name='Категория', on_delete=models.SET_NULL, null=True)
 
     amount = models.PositiveIntegerField(
         'Количество товара в наличии', blank=False, default=1)
@@ -30,7 +34,7 @@ class Products(models.Model):
         'Дата и время добавления товара', editable=False, blank=False, auto_now_add=True)
 
     discount = models.ForeignKey(
-        'Discount', verbose_name='Скидка, %', on_delete=models.SET_NULL, null=True)
+        'Discount', verbose_name='Скидка', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -49,3 +53,10 @@ class Discount(models.Model):
         verbose_name='Дата и время начала действия скидки', editable=True, blank=False, auto_now_add=True)
     duration = models.DurationField(
         verbose_name='Дата и время окончания действия скидки', editable=True, blank=False, default=timedelta(days=7))
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        verbose_name = 'Скидка'
+        verbose_name_plural = 'Скидки'
