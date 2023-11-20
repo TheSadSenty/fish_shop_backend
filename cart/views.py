@@ -1,15 +1,42 @@
-from django.shortcuts import render
-
-from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 from .serializers import CartSerializer
-from products.serializers import ProductSerializer
+from products.serializers import ProductsSerializer
 from .models import Cart
 from products.models import Products, Category
 
-class CartAPI(APIView):
+
+class CartViewSet(viewsets.ModelViewSet):
+    renderer_classes = [JSONRenderer]
+
+    def list(self, request):
+        queryset = Cart.objects.all()
+        serializer = CartSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        pass
+
+    def retrieve(self, request, pk=None):
+        queryset = Cart.objects.all()
+        cart = get_object_or_404(queryset, pk=pk)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
+
+
+""" class CartAPI(APIView):
     def get(self, request, format=None):
         # Получаем ID пользователя из параметра запроса
         # user_id = request.GET.get('user_id')
@@ -80,4 +107,4 @@ class CartAPI(APIView):
     def calculate_total_price(self, cart_items):
         # Рассчитываем общую стоимость корзины
         total_price = sum(item.item.price * item.quantity for item in cart_items)
-        return total_price
+        return total_price """
