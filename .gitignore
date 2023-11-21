@@ -5,6 +5,8 @@ env/
 git-conventional-commits.yaml
 # Visual Studio Code 
 .vscode/*
+# JetBrains
+.idea/*
 # Django
 *.log
 *.pot
