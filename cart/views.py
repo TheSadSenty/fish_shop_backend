@@ -19,7 +19,7 @@ class CartViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        serializer = CreateCart(data=request.data)
+        serializer = CreateUpdateCartSerializer(data=request.data)
         if serializer.is_valid():
             queryset = Products.objects.all()
             product = get_object_or_404(
@@ -37,7 +37,18 @@ class CartViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        return Response(status=status.HTTP_200_OK)
+        serializer = CreateUpdateCartSerializer(data=request.data)
+        if serializer.is_valid():
+            queryset_cart = Cart.objects.all()
+            queryset_product = Products.objects.all()
+            cart = get_object_or_404(queryset_cart, pk=pk)
+            product = get_object_or_404(
+                queryset_product, pk=serializer.data["product_id"])
+            cart.item = product
+            cart.quantity = serializer.data["quantity"]
+            cart.save(force_update=True)
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product_id or quantity or one of them has invalid value"})
 
     def destroy(self, request, pk=None):
         pass

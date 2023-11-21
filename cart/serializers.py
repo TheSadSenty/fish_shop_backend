@@ -11,6 +11,6 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CreateCart(serializers.Serializer):
+class CreateUpdateCartSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
     quantity = serializers.IntegerField()
