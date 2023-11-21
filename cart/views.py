@@ -10,13 +10,14 @@ from products.models import Products, Category
 from .serializers import *
 
 
+class CartReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+    renderer_classes = [JSONRenderer]
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
 class CartViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
-
-    def list(self, request):
-        queryset = Cart.objects.all()
-        serializer = CartSerializer(queryset, many=True)
-        return Response(serializer.data)
 
     def create(self, request):
         serializer = CreateUpdateCartSerializer(data=request.data)
@@ -29,12 +30,6 @@ class CartViewSet(viewsets.ViewSet):
             serializer = CartSerializer(cart)
             return Response(status=status.HTTP_201_CREATED, data=serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product_id or quantity or one of them has invalid value"})
-
-    def retrieve(self, request, pk=None):
-        queryset = Cart.objects.all()
-        cart = get_object_or_404(queryset, pk=pk)
-        serializer = CartSerializer(cart)
-        return Response(serializer.data)
 
     def update(self, request, pk=None):
         serializer = CreateUpdateCartSerializer(data=request.data)
