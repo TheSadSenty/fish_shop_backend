@@ -7,6 +7,7 @@ from .serializers import CartSerializer
 from products.serializers import ProductsSerializer
 from .models import Cart
 from products.models import Products, Category
+from .serializers import *
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -18,7 +19,16 @@ class CartViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        pass
+        serializer = CreateCart(data=request.data)
+        if serializer.is_valid():
+            queryset = Products.objects.all()
+            product = get_object_or_404(
+                queryset, pk=serializer.data["product_id"])
+            cart = Cart(item=product, quantity=serializer.data["quantity"])
+            cart.save()
+            serializer = CartSerializer(cart)
+            return Response(status=status.HTTP_201_CREATED, data=serializer.data)
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product_id or quantity or one of them has invalid value"})
 
     def retrieve(self, request, pk=None):
         queryset = Cart.objects.all()
