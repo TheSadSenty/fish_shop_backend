@@ -10,7 +10,7 @@ from products.models import Products, Category
 from .serializers import *
 
 
-class CartViewSet(viewsets.ModelViewSet):
+class CartViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
 
     def list(self, request):
@@ -37,10 +37,7 @@ class CartViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        pass
-
-    def partial_update(self, request, pk=None):
-        pass
+        return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         pass
