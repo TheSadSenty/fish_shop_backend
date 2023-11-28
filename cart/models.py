@@ -1,10 +1,13 @@
 from django.db import models
 from products.models import Products
+from django.contrib.auth.models import User
 
 
 class Cart(models.Model):
     item = models.ForeignKey(
         Products, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь")
     quantity = models.IntegerField(null=False)
     created_at = models.DateTimeField(
         verbose_name="Дата создания", auto_now_add=True)
