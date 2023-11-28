@@ -7,7 +7,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
-from django.contrib.auth import models, login, authenticate
+from django.contrib.auth import models, login, authenticate, logout
 from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer
 
 
@@ -50,8 +50,10 @@ class UserViewSet(viewsets.ViewSet):
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
     @method_decorator(csrf_protect)
-    def destroy(self, request, pk=None):
-        pass
+    @action(detail=False, methods=['delete'])
+    def logout(self, request):
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
 
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
