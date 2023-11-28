@@ -4,10 +4,11 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth import models, login, authenticate
-from .serializers import UserSerializer, UserLoginSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -54,3 +55,14 @@ class UserViewSet(viewsets.ViewSet):
 
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
+
+class UserInformathionViewSet(viewsets.ViewSet):
+    renderer_classes = [JSONRenderer]
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        queryset = request.user
+        serializer = UserInformathionSerializer(queryset)
+        return Response(serializer.data)

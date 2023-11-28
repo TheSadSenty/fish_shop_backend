@@ -19,3 +19,10 @@ class UserSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
+
+class UserInformathionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.User
+        fields = ['username', 'first_name', 'last_name', 'email']
