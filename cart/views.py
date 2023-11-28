@@ -11,16 +11,21 @@ from products.models import Products
 from .serializers import *
 
 
-class CartReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    renderer_classes = [JSONRenderer]
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
-
-
 class CartViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        queryset = Cart.objects.filter(user=request.user)
+        serializer = CartSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = Cart.objects.filter(user=request.user)
+        cart = get_object_or_404(queryset, pk=pk)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
 
     def create(self, request):
         serializer = CreateUpdateCartSerializer(data=request.data)
