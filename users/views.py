@@ -2,13 +2,19 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
-from django.contrib.auth import models
-from .serializers import UserSerializer
+from rest_framework.decorators import action
+from rest_framework.authentication import SessionAuthentication
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.contrib.auth import models, login, authenticate
+from .serializers import UserSerializer, UserLoginSerializer
 
 
 class UserViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
+    authentication_classes = [SessionAuthentication]
 
+    @method_decorator(csrf_protect)
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,8 +30,27 @@ class UserViewSet(viewsets.ViewSet):
         except KeyError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, pk=None):
-        pass
+    @action(detail=False, methods=['get'])
+    @method_decorator(ensure_csrf_cookie)
+    def get_csrf_token(self, request):
+        return Response(status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['post'])
+    @method_decorator(csrf_protect)
+    def login(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(
+                request, username=serializer.data["username"], password=serializer.data["password"])
+            if user is not None:
+                login(request, user)
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+    @method_decorator(csrf_protect)
     def destroy(self, request, pk=None):
         pass
+
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
