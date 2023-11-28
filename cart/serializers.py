@@ -8,7 +8,7 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = '__all__'
+        exclude = ['user']
 
 
 class CreateUpdateCartSerializer(serializers.Serializer):
