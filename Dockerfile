@@ -12,12 +12,12 @@ RUN mkdir empty
 RUN mkdir logs
 RUN mkdir app
 WORKDIR /app
-COPY requirements.txt .
-COPY manage.py .
-COPY fish_shop_backend ./fish_shop_backend
-COPY products ./products
+COPY . .
 
 RUN pip install -r requirements.txt
+
+RUN cp -r /usr/local/lib/python3.10/dist-packages/django/contrib/admin/static/ ./static/
+
 EXPOSE 80
 
 ENTRYPOINT  "apache2ctl" "-D" "FOREGROUND"
