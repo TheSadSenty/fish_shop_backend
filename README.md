@@ -20,15 +20,18 @@ POSTGRES_ADDRESS=localhost
 ## Launch the app in Docker
 1. `touch .env`. Add the following lines:
 ```shel
-DEBUG=True
+DEBUG=False
 SECRET_KEY=django-insecure-@e%9m0aw_!hnhip05to+a0eu+^f*kp=(yc9ghzoh5!a79ha@zr
 POSTGRES_DB=postgres 
 POSTGRES_USER=postgres 
 POSTGRES_PASSWORD=1234
-POSTGRES_ADDRESS=postgres
+POSTGRES_ADDRESS=db
+DJANGO_SUPERUSER_EMAIL=admin@email.com
+DJANGO_SUPERUSER_PASSWORD=admin
+DJANGO_SUPERUSER_USERNAME=admin
 ```
 2. `docker-compose up -d --build`
-3. `docker container exec -it backend /usr/bin/python3 /app/manage.py migrate`
+3. `./setup.sh`
 ## Creating test data
 `python3 manage.py shell` - Launch interactive shell
 ```python
