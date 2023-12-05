@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import models
 from django.contrib.auth.hashers import make_password
+from .models import FavoriteProduct
+from products.serializers import ProductsSerializer
+from products.models import Products
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,3 +29,20 @@ class UserInformathionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class FavoriteProductListSerializer(serializers.ModelSerializer):
+    product = ProductsSerializer()
+
+    class Meta:
+        model = FavoriteProduct
+        fields = ['product']
+
+
+class FavoriteProductCreateUpdateSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(
+        queryset=Products.objects.all())
+
+    class Meta:
+        model = FavoriteProduct
+        fields = ['product']

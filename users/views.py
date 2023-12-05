@@ -8,7 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth import models, login, authenticate, logout
-from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer
+from .models import FavoriteProduct
+from products.models import Products
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -68,3 +70,20 @@ class UserInformathionViewSet(viewsets.ViewSet):
         queryset = request.user
         serializer = UserInformathionSerializer(queryset)
         return Response(serializer.data)
+
+
+class FavoriteProductViewSet(viewsets.ViewSet):
+    renderer_classes = [JSONRenderer]
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        queryset = FavoriteProduct.objects.filter(user=request.user)
+        serializer = FavoriteProductListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        pass
+
+    def destroy(self, request):
+        pass
