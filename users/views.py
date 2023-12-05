@@ -2,6 +2,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -72,17 +73,17 @@ class UserInformathionViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class FavoriteProductViewSet(viewsets.ViewSet):
+class FavoriteProductAPIView(APIView):
     renderer_classes = [JSONRenderer]
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def list(self, request):
+    def get(self, request):
         queryset = FavoriteProduct.objects.filter(user=request.user)
         serializer = FavoriteProductListSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def create(self, request):
+    def post(self, request):
         serializer = FavoriteProductCreateUpdateSerializer(data=request.data)
         if serializer.is_valid():
             print(serializer.data)
@@ -97,5 +98,5 @@ class FavoriteProductViewSet(viewsets.ViewSet):
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Product already in favorite"})
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product or product has invalid value"})
 
-    def destroy(self, request):
+    def delete(self, request):
         pass
