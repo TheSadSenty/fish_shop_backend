@@ -83,7 +83,19 @@ class FavoriteProductViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        pass
+        serializer = FavoriteProductCreateUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            print(serializer.data)
+            product = Products.objects.get(id=serializer.data["product"])
+            check_duplicate = FavoriteProduct.objects.filter(product=product)
+            print(check_duplicate)
+            if not check_duplicate:
+                favorite = FavoriteProduct(product=product, user=request.user)
+                favorite.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Product already in favorite"})
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product or product has invalid value"})
 
     def destroy(self, request):
         pass
