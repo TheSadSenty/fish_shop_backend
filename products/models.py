@@ -4,12 +4,6 @@ from datetime import timedelta
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    # slug = models.SlugField()
-
-    class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
-        ordering = ("name",)
 
     discount = models.ForeignKey(
         'Discount', verbose_name='Скидка', on_delete=models.SET_NULL, null=True)
@@ -20,6 +14,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ("name",)
 
 
 class Products(models.Model):
