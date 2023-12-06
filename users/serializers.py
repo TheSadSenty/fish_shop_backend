@@ -55,3 +55,12 @@ class UserReviewListSerializer(serializers.ModelSerializer):
         model = UserReview
         fields = ['user_public_name', 'text',
                   'product', 'is_anonymous', 'created_at']
+
+
+class UserReviewCreateUpdateSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(
+        queryset=Products.objects.all())
+
+    class Meta:
+        model = UserReview
+        fields = ['text', 'product', 'is_anonymous']

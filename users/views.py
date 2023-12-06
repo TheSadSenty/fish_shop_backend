@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth import models, login, authenticate, logout
-from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer, UserReviewListSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer, UserReviewListSerializer, UserReviewCreateUpdateSerializer
 from .models import FavoriteProduct, UserReview
 from products.models import Products
 
@@ -116,3 +116,35 @@ class UserReviewListViewSet(viewsets.ReadOnlyModelViewSet):
     renderer_classes = [JSONRenderer]
     queryset = UserReview.objects.all()
     serializer_class = UserReviewListSerializer
+
+
+class UserReviewCreateUpdateAPIView(APIView):
+    renderer_classes = [JSONRenderer]
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        queryset = UserReview.objects.filter(user=request.user)
+        serializer = UserReviewListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UserReviewCreateUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            product = Products.objects.get(id=serializer.data["product"])
+            check_duplicate = UserReview.objects.filter(
+                product=product, user=request.user)
+            if not check_duplicate:
+                user_review = UserReview(product=product, user=request.user,
+                                         text=serializer.data["text"], is_anonymous=serializer.data["is_anonymous"])
+                user_review.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Product already has your review"})
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product/text/is_anonymous or product/text/is_anonymous have invalid value"})
+
+    def patch(self, request):
+        pass
+
+    def delete(self, request):
+        pass
