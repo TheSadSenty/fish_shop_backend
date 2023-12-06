@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import models
 from django.contrib.auth.hashers import make_password
-from .models import FavoriteProduct
+from .models import FavoriteProduct, UserReview
 from products.serializers import ProductsSerializer
 from products.models import Products
 
@@ -46,3 +46,12 @@ class FavoriteProductCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteProduct
         fields = ['product']
+
+
+class UserReviewListSerializer(serializers.ModelSerializer):
+    product = ProductsSerializer()
+
+    class Meta:
+        model = UserReview
+        fields = ['user_public_name', 'text',
+                  'product', 'is_anonymous', 'created_at']

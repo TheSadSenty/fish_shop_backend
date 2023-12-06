@@ -9,8 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth import models, login, authenticate, logout
-from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer
-from .models import FavoriteProduct
+from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer, UserReviewListSerializer
+from .models import FavoriteProduct, UserReview
 from products.models import Products
 
 
@@ -110,3 +110,9 @@ class FavoriteProductAPIView(APIView):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Product not in favorite"})
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': "Missing product or product has invalid value"})
+
+
+class UserReviewListViewSet(viewsets.ReadOnlyModelViewSet):
+    renderer_classes = [JSONRenderer]
+    queryset = UserReview.objects.all()
+    serializer_class = UserReviewListSerializer
