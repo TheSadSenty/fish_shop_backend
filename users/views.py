@@ -86,10 +86,8 @@ class FavoriteProductAPIView(APIView):
     def post(self, request):
         serializer = FavoriteProductCreateUpdateSerializer(data=request.data)
         if serializer.is_valid():
-            print(serializer.data)
             product = Products.objects.get(id=serializer.data["product"])
             check_duplicate = FavoriteProduct.objects.filter(product=product)
-            print(check_duplicate)
             if not check_duplicate:
                 favorite = FavoriteProduct(product=product, user=request.user)
                 favorite.save()
