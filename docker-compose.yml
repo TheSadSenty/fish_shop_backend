@@ -19,7 +19,6 @@ services:
       - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
     volumes:
       - ./logs:/logs
-      - ./static:/static
     depends_on:
       - postgres
   
