@@ -4,11 +4,11 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.decorators import action
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
-from django.contrib.auth import models, login, authenticate, logout
+from rest_framework.authtoken.models import Token
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import models, authenticate
 from .serializers import UserSerializer, UserLoginSerializer, UserInformathionSerializer, FavoriteProductListSerializer, FavoriteProductCreateUpdateSerializer
 from .models import FavoriteProduct
 from products.models import Products
@@ -16,14 +16,18 @@ from products.models import Products
 
 class UserViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
-    authentication_classes = [SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
 
-    @method_decorator(csrf_protect)
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            response = Response(status=status.HTTP_200_OK)
+            user = models.User.objects.get(
+                username=serializer.data["username"])
+            token = Token.objects.create(user=user)
+            response["Auth-Token"] = f'{token.key}'
+            return response
         try:
             user = models.User.objects.filter(
                 username=request.data["username"])
@@ -34,37 +38,38 @@ class UserViewSet(viewsets.ViewSet):
         except KeyError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'])
-    @method_decorator(ensure_csrf_cookie)
-    def get_csrf_token(self, request):
-        return Response(status=status.HTTP_200_OK)
-
     @action(detail=False, methods=['post'])
-    @method_decorator(csrf_protect)
     def login(self, request):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             user = authenticate(
                 request, username=serializer.data["username"], password=serializer.data["password"])
             if user is not None:
-                login(request, user)
-                return Response(status=status.HTTP_200_OK)
+                try:
+                    token = Token.objects.get(user=user)
+                except ObjectDoesNotExist:
+                    response = Response(status=status.HTTP_200_OK)
+                    token = Token.objects.create(user=user)
+                    response["Auth-Token"] = f'{token.key}'
+                    return response
+                response = Response(status=status.HTTP_200_OK)
+                response["Auth-Token"] = f'{token.key}'
+                return response
             else:
                 return Response(status=status.HTTP_403_FORBIDDEN)
 
-    @method_decorator(csrf_protect)
     @action(detail=False, methods=['delete'])
     def logout(self, request):
-        logout(request)
-        return Response(status=status.HTTP_200_OK)
-
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+        if isinstance(request.user, models.User):
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class UserInformathionViewSet(viewsets.ViewSet):
     renderer_classes = [JSONRenderer]
-    authentication_classes = [SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
@@ -75,7 +80,7 @@ class UserInformathionViewSet(viewsets.ViewSet):
 
 class FavoriteProductAPIView(APIView):
     renderer_classes = [JSONRenderer]
-    authentication_classes = [SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
