@@ -8,10 +8,10 @@ RUN pip install --upgrade pip
 
 COPY ./rest_api_site.conf /etc/apache2/sites-available/000-default.conf
 
-RUN mkdir empty
 RUN mkdir logs
 RUN mkdir app
 WORKDIR /app
+RUN mkdir media
 COPY . .
 
 RUN pip install -r requirements.txt
