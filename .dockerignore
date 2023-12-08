@@ -1,0 +1,12 @@
+db.sqlite3
+docker-compose.yml
+Dockerfile
+.env
+env/
+.git/
+git-conventional-commits.yaml
+data/
+logs/
+README.md
+.vscode/
+setup.sh

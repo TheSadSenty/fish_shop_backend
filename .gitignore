@@ -5,6 +5,8 @@ env/
 git-conventional-commits.yaml
 # Visual Studio Code 
 .vscode/*
+# JetBrains
+.idea/*
 # Django
 *.log
 *.pot
@@ -12,3 +14,5 @@ git-conventional-commits.yaml
 __pycache__
 db.sqlite3
 media
+#db files
+data/
