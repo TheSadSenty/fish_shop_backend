@@ -6,7 +6,7 @@
 http http://127.0.0.1:8000/api/favorite/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e'
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, POST, DELETE, HEAD, OPTIONS  
 Content-Length: 849  
@@ -80,7 +80,7 @@ X-Frame-Options: DENY
 http POST http://127.0.0.1:8000/api/favorite/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e' product=4
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, POST, DELETE, HEAD, OPTIONS  
 Content-Length: 0  
@@ -98,7 +98,7 @@ X-Frame-Options: DENY
 http DELETE http://127.0.0.1:8000/api/favorite/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e' product=3
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, POST, DELETE, HEAD, OPTIONS  
 Content-Length: 0  
@@ -123,7 +123,7 @@ il.com password=iwwhkdhkwdwdjwdghwd
 http POST http://127.0.0.1:8000/api/user/ username=Maxim5 first_name= last_name= email= password=1234
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: POST, OPTIONS  
 Auth-Token: 457d29ad9ca4cb195597b2b51756a075436197e4  
@@ -142,7 +142,7 @@ X-Frame-Options: DENY
 http POST http://127.0.0.1:8000/api/user/login/ username=Maxim5 password=1234
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: POST, OPTIONS  
 Auth-Token: 457d29ad9ca4cb195597b2b51756a075436197e4  
@@ -161,7 +161,7 @@ X-Frame-Options: DENY
 http DELETE http://127.0.0.1:8000/api/user/logout/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e'
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: DELETE, OPTIONS  
 Content-Length: 0  
@@ -179,7 +179,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/user_informathion/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e'
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, HEAD, OPTIONS  
 Content-Length: 63  
@@ -206,7 +206,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/products/
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, HEAD, OPTIONS  
 Content-Length: 271  
@@ -244,7 +244,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/products/2/
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, HEAD, OPTIONS  
 Content-Length: 230  
@@ -274,7 +274,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/categories/
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, HEAD, OPTIONS  
 Content-Length: 68  
@@ -304,7 +304,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/categories/1/
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, HEAD, OPTIONS  
 Content-Length: 16  
@@ -328,7 +328,7 @@ X-Frame-Options: DENY
 http POST http://127.0.0.1:8000/api/cart/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e' product_id=1 quantity=3434
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 201 Created  
 Allow: GET, POST, HEAD, OPTIONS  
 Content-Length: 276  
@@ -365,7 +365,7 @@ X-Frame-Options: DENY
 http PUT http://127.0.0.1:8000/api/cart/1/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e' product_id=1 quantity=34
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, PUT, DELETE, HEAD, OPTIONS  
 Content-Length: 0  
@@ -383,7 +383,7 @@ X-Frame-Options: DENY
 http DELETE http://127.0.0.1:8000/api/cart/1/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e'
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, PUT, DELETE, HEAD, OPTIONS  
 Content-Length: 0  
@@ -401,7 +401,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/cart/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e'
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, POST, HEAD, OPTIONS  
 Content-Length: 1109  
@@ -491,7 +491,7 @@ X-Frame-Options: DENY
 http http://127.0.0.1:8000/api/cart/4/ 'Authorization: Token f3c4f7e337ea508f2a8a1ccb2681ec9a6471744e''
 ```
 ### Ответ
-```http
+```
 HTTP/1.1 200 OK  
 Allow: GET, PUT, DELETE, HEAD, OPTIONS  
 Content-Length: 276  
